@@ -70,8 +70,8 @@ static Array readIsoquants (char *fileName)
     }
     tokens = textFieldtok (line,"\t");
     currIsoquant = arrayp (isoquants,arrayMax (isoquants),Isoquant);
-    currIsoquant->transcriptName = hlr_strdup (textItem (tokens,3));
-    currIsoquant->rpkm = atof (textItem (tokens,5));
+    currIsoquant->transcriptName = hlr_strdup (textItem (tokens,2));
+    currIsoquant->rpkm = atof (textItem (tokens,4));
     textDestroy (tokens);
   }
   ls_destroy (ls);
@@ -122,7 +122,8 @@ static double getRpkm (Array isoquants, char *transcriptName)
     currIsoquant = arrp (isoquants,index,Isoquant);
   }
   else {
-    die ("Expected to find RPKM for %s!",transcriptName);
+    warn ("Expected to find RPKM for %s!",transcriptName);
+    return 0;
   }
   hlr_free (testIsoquant.transcriptName);
   return currIsoquant->rpkm;
